@@ -29,6 +29,7 @@ class DeviceM:
 
         try:
             self.idn = self.instrument.query("*IDN?")
+            print(f'Setup identification: {self.idn}')
         except visa.VisaIOError as e:
             print(e.args)
             self.close_instrument()

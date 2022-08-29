@@ -1,4 +1,5 @@
 import pyvisa as visa
+from locale import atof
 
 
 class DeviceM:
@@ -30,6 +31,7 @@ class DeviceM:
             self.idn = self.instrument.query("*IDN?")
         except visa.VisaIOError as e:
             print(e.args)
+            self.close_instrument()
             return 'Error'
 
         return self.idn
@@ -60,12 +62,14 @@ class DeviceM:
             self.instrument.write("ROUT:SCAN (@101:110);:TRIG:SOUR BUS;COUN 1;:INIT;")
         except visa.VisaIOError as e:
             print(e.args)
+            self.close_instrument()
             return 'Error'
 
         try:
             self.instrument.write("*TRG")
         except visa.VisaIOError as e:
             print(e.args)
+            self.close_instrument()
             return 'Error'
 
         data = 'Error'
@@ -74,7 +78,37 @@ class DeviceM:
             data = self.instrument.query("FETC?")
         except visa.VisaIOError as e:
             print(e.args)
+            self.close_instrument()
             return 'Error'
 
         print(data.encode())
         return data
+
+    def get_errors(self):
+
+        if self.open_instrument() != 'Ok':
+            return 'Error'
+
+        print("_____________get_Errors________________________")
+        system_error_value = 1
+        system_error_str = str()
+        while system_error_value != 0:
+
+            try:
+                data_str = self.instrument.query("SYSTem:ERRor?")
+                system_error_str = system_error_str + data_str + '\n'
+            except visa.VisaIOError as e:
+                print(e.args)
+                self.close_instrument()
+                return 'Error'
+
+            array = data_str.split(",")
+            system_error_value = atof(array[0])
+            print(system_error_value)
+
+        print("______________________________________________")
+        return system_error_str
+
+    def __del__(self):
+        if self.instrument_is_open:
+            self.close_instrument()

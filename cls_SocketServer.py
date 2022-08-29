@@ -71,18 +71,16 @@ class SocketServer:
         """ Accept and handle an incoming connection. """
         print('Starting socket server (host {}, port {})'.format(self.host, self.port))
 
-        self.client_sock, SocketServer.client_addr = self.sock.accept()
+        self.client_sock, self.client_addr = self.sock.accept()
 
         print('Client {} connected'.format(self.client_addr))
-
-        read_data = list()
 
         stop = False
         while not stop:
             if self.client_sock:
                 # Check if the client is still connected and if data is available:
                 try:
-                    rdy_read, rdy_write, sock_err = select.select([self.client_sock, ], [], [])
+                    rdy_read, rdy_write, sock_err = select.select([self.client_sock,], [], [])
                 except select.error:
                     print('Select() failed on socket with {}'.format(self.client_addr))
                     return 1

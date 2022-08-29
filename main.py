@@ -3,7 +3,7 @@ from cls_instrument import DeviceM
 
 
 def main():
-    server = SocketServer()
+    server = SocketServer(host='0.0.0.0', port=9008)
     device_m = DeviceM('instr_idn.txt')
     print(device_m.open_instrument())
 

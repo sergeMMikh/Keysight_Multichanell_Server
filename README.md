@@ -12,7 +12,7 @@ To start the program you need Python version 3.10
 
 ## Operation
 
-Programme starts a local server at PORT 9008 (you can change it's value in cls_SocketServer.py line 13).
+Programme starts a local server at PORT 9008 (you can change it's value in main.py line 6).
 
 To get setup identification: <br/>*query string "Idn".*<br/>
 

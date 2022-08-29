@@ -8,7 +8,7 @@ def main():
     print(device_m.open_instrument())
 
     while True:
-        recvData = server.recv_server_data().decode().strip()
+        recvData = server.receive_server_data().decode().strip()
         match recvData:
             case 'Exit':
                 server.send_str_server_data('Close multimeter program.')

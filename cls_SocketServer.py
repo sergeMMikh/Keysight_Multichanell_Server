@@ -61,7 +61,7 @@ class SocketServer:
         SocketServer.client_sock.close()
         return 0
 
-    def send_server_data(self):
+    def receive_server_data(self):
         """ Accept and handle an incoming connection. """
         print('Starting socket server (host {}, port {})'.format(self.host, self.port))
  

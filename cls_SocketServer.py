@@ -10,7 +10,7 @@ http://theembeddedlab.com/tutorials/simple-socket-server-python/
 class SocketServer:
     """ Simple socket server that listens to one single client. """
 
-    def __init__(self, host='127.0.0.1', port=9000):
+    def __init__(self, host='127.0.0.1', port=9008):
         """ Initialize the server with a host and port to listen to. """
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)

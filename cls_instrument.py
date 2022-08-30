@@ -1,12 +1,18 @@
 import pyvisa as visa
 from locale import atof
+from pathlib import Path
 
 
 class DeviceM:
     instrument_is_open = False
 
     def __init__(self, cfg_file: str):
-        with open(cfg_file) as f:
+        path = str(Path(__file__))
+
+        full_path = path[:-17] + cfg_file
+        print(f'full_path: {full_path}')
+
+        with open(full_path) as f:
             self.instrument_idn = f.read().strip()
 
         self.instrument = str()

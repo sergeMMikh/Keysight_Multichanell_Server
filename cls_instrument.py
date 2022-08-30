@@ -48,15 +48,32 @@ class DeviceM:
             try:
                 self.instrument = self.rm.open_resource(self.instrument_idn)
                 self.instrument_is_open = True
-                return 'Ok'
             except visa.VisaIOError as e:
                 print(e.args)
                 self.close_instrument()
                 return 'Error'
-        else:
-            return 'Ok'
+        try:
+            self.instrument.write("DISPLay:TEXT 'MEASURING'")
+        except visa.VisaIOError as e:
+            print(e.args)
+            self.close_instrument()
+            return 'Error'
+        try:
+            self.instrument.write("ROUTe:MONitor:STATe OFF")
+        except visa.VisaIOError as e:
+            print(e.args)
+            self.close_instrument()
+            return 'Error'
+
+        return 'Ok'
 
     def close_instrument(self):
+        try:
+            self.instrument.write("ROUTe:MONitor:STATe ON")
+            self.instrument.write("DISPlay:TEXT:CLEar")
+        except visa.VisaIOError as e:
+            print(e.args)
+            self.close_instrument()
         self.instrument.close()
         self.instrument_is_open = False
 
